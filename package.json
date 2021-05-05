@@ -36,6 +36,7 @@
     "dotenv": "^9.0.0",
     "mongodb": "^3.6.6",
     "mongoose": "^5.12.7",
+    "node-fetch": "^2.6.1",
     "sourcecred": "^0.8.5"
   }
 }
