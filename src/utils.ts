@@ -9,7 +9,6 @@ config()
 const loadLedger = async (): Promise<any> => {
   try {
     const ledgerFileURI = process.env.REPO_AND_BRANCH + 'data/ledger.json'
-      console.log(ledgerFileURI)
     const ledgerFileResponse = await fetch(ledgerFileURI);
 
     if (!ledgerFileResponse.ok)
