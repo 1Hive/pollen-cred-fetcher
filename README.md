@@ -15,7 +15,7 @@ Copy the content of your `.env.sample` file into a new `.env` file and add the c
 - `REPO_AND_BRANCH` = The repo and branch of your sourcecred instance. In this case it's `https://raw.githubusercontent.com/1Hive/pollen/gh-pages/`
 - `MONGODB_URI` = Your MongoDB connection URI.
 
-### Start the script
+### Run the script!
 
 - `npm run dev` will execute the script in developer mode, with hot reloading.
-- `npm start` will run the script in production mode.
+- `npm start` will execute the script in production mode.
