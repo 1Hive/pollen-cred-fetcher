@@ -38,6 +38,13 @@ const updatePollenData = async () => {
       )
     }
 
+    console.log(`${Date.now()}: Removing DB entries for accounts that are not longer in the ledger...`)
+    const dbAccounts = await Account.find({})
+    for (const dbAccount of dbAccounts) {
+      if(!accounts.find(account => account.identity.id === dbAccount.identity.id))
+        await dbAccount.deleteOne()
+    }
+
     console.log(`${Date.now()}: Updating DB entries for credgraph participants...`)
     for (const participant of credParticipants) {
       if (participant.cred < 1) continue
@@ -51,6 +58,13 @@ const updatePollenData = async () => {
         },
         { upsert: true }
       )
+    }
+
+    console.log(`${Date.now()}: Removing DB entries for participants that are not longer in the credGraph...`)
+    const dbParticipants = await CredParticipant.find({})
+    for (const dbParticipant of dbParticipants) {
+      if(!credParticipants.find(participant => participant.id === dbParticipant.id))
+        await dbParticipant.deleteOne()
     }
 
     console.log(`${Date.now()}: DB entries updated.`)
