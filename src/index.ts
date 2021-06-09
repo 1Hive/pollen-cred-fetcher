@@ -28,14 +28,18 @@ const updatePollenData = async () => {
       const { identity } = account
       const aliases = identity.aliases.map(alias => alias.address)
 
-      await Account.findOneAndUpdate(
-        { 'identity.id': identity.id },
-        { 
+      const foundAccount = await Account.findOne({ 'identity.id': identity.id })
+
+      if (!foundAccount) {
+        Account.create({ 
+          'identity.id': identity.id,
           'identity.subtype': identity.subtype,
           'identity.aliases': aliases
-        },
-        { upsert: true }
-      )
+        })
+      } else if (foundAccount.identity.aliases !== aliases) foundAccount.updateOne({
+        'identity.aliases': aliases
+      })
+      else continue
     }
 
     console.log(`${Date.now()}: Removing DB entries for accounts that are not longer in the ledger...`)
