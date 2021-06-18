@@ -1,24 +1,13 @@
-import { CronJob } from 'cron'
-
 import fetchPollenData from './utils'
 import connectDB from './config/db'
 
 import Account from './models/Account'
 import CredParticipant from './models/CredParticipant'
 
-const main = async () => {
-  await connectDB()
-
-  const pollenUpdateJob = new CronJob(
-    // start: true, runOnInit: true
-    "0 */6 * * *", () => updatePollenData(), null, true, null, null, true
-  )
-}
-
-main()
-
-const updatePollenData = async () => {
+const updatePollenData = async (): Promise<void> => {
   try {
+    await connectDB()
+
     console.log(`${Date.now()}: Fetching data...`)
     const pollenData = await fetchPollenData()
     const { accounts, credParticipants } = pollenData
@@ -72,7 +61,11 @@ const updatePollenData = async () => {
     }
 
     console.log(`${Date.now()}: DB entries updated.`)
+    process.exit()
   } catch (err) {
     console.log(err)
+    process.exit(1)
   }
 }
+
+updatePollenData()
